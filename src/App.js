@@ -7,7 +7,7 @@ import 'firebase/auth';
 
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 
 firebase.initializeApp({
 	apiKey: 'AIzaSyABhLhdyUV8E4YK-WxfvCykg_bk3GiBpKI',
@@ -60,6 +60,8 @@ function ChatRoom() {
 	const [formValue, setFormValue] = useState('');
 	const [notif, setNotif] = useState(false);
 
+	const dummy = useRef();
+
 	const sendMessage = async (e) => {
 		e.preventDefault();
 
@@ -77,14 +79,17 @@ function ChatRoom() {
 		}
 
 		setFormValue('');
+
+		dummy.current.scrollIntoView({behavior : 'smooth'});
 	};
 
 	return (
 		<div className='chatbox box'>
-
 			<h1 className='title is-1 chatroom-title'>Aur1</h1>
 			{messages &&
 				messages.map((msg) => <ChatMessage key={msg.id} message={msg} />)}
+
+			<div ref={dummy}></div>
 
 			<form onSubmit={sendMessage} className='input-form'>
 				<div className='field has-addons'>
